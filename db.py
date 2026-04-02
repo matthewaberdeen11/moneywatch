@@ -1,6 +1,6 @@
 import sqlite3
 from datetime import datetime
-#CONSTANT name for the database file
+
 DB_NAME = 'moneywatch.db'
 
 def init_db():
@@ -23,12 +23,24 @@ def init_db():
     conn.commit()
     conn.close()
                                     
-#write a function to add a transaction to the database
-#add_transaction 
+#wadd a transaction to the database
+
 def add_transaction(amount,category,description,type):
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
-    cursor.execute
+    cursor.execute("""INSERT INTO transactions (amount,category,description,type)
+                      VALUES (?,?,?,?)""",(amount,category,description,type))
+    
+    conn.commit()
+    conn.close()
 
 
+def get_transactions():
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+    cursor.execute("""SELECT * FROM transactions""")
+    rows = cursor.fetchall()
+    conn.close()
 
+    return rows
+   
