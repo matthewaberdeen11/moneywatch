@@ -1,0 +1,1 @@
+from moneywatch.cli import cli
