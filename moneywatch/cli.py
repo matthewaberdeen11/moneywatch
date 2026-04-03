@@ -21,4 +21,5 @@ def add(amount,category,description,type):
 def list_transactions():
     transactions = get_transactions()
     for row in transactions:
-        click.echo(row)
+        id, amount, category, description, type, date = row
+        click.echo(f'#{id} | {type} | ${amount:.2f} | {category}')
