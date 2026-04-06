@@ -44,3 +44,20 @@ def get_transactions():
 
     return rows
    
+def delete_transaction(transaction_id):
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM transactions WHERE id = ?",(transaction_id,))
+    conn.commit()
+    conn.close()
+
+
+def get_summary():
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+    cursor.execute('SELECT type, category, SUM(amount) FROM transactions GROUP BY type, category')
+    rows = cursor.fetchall()
+    conn.close()
+    
+    return rows
+    
