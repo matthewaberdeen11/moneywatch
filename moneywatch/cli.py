@@ -50,12 +50,20 @@ def transactions_summary():
     summary = get_summary()
     total_income = 0
     total_expense = 0
+    table = Table(title = "Summary")
+    table.add_column("Type")
+    table.add_column("Category")
+    table.add_column("Total")
+
     for rows in summary:
         type, category, total = rows
         if type == "income":
             total_income = total_income + total
         elif type == "expense":
             total_expense = total_expense + total
-        click.echo(f'{type} | {category} | {total:.2f}')
-
-    click.echo(f'Total income: {total_income:.2f} \n Total expense: {total_expense:.2f} \n Net Balance: {total_income - total_expense:.2f}')
+        table.add_row(type, category,f"${total:.2f}" )
+    
+    console.print(table)
+    console.print(f"\nTotal Income: ${total_income:.2f}")
+    console.print(f"Total Expenses: ${total_expense:.2f}")
+    console.print(f"Net Balance: ${total_income - total_expense:.2f}")
