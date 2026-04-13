@@ -1,4 +1,8 @@
 import click
+from rich.console import Console
+from rich.table import Table
+
+console = Console()
 
 from moneywatch.db import init_db, add_transaction, get_transactions, delete_transaction, get_summary
 
@@ -20,9 +24,20 @@ def add(amount,category,description,type):
 @cli.command("list")
 def list_transactions():
     transactions = get_transactions()
+    table = Table(title="Transactions")
+    table.add_column("ID")
+    table.add_column("Amount")
+    table.add_column("Type")
+    table.add_column("Category")
+    table.add_column("Description")
+    table.add_column("Date")
+
     for row in transactions:
         id, amount, category, description, type, date = row
-        click.echo(f'#{id} | {type} | ${amount:.2f} | {category}| {description} | {date}')
+        table.add_row(str(id),f"${amount:.2f}",type, category, description, date)
+    
+    console.print(table)
+        
     
 @cli.command()
 @click.argument("transaction_id", type=int)
